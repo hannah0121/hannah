@@ -1,64 +1,68 @@
+var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
+var packageBody,ground
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
+const Body = Matter.Body;
 
-var engine, world;
-var box1, pig1;
-var backgroundImg,platform;
-
-function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+function preload()
+{
+	helicopterIMG=loadImage("helicopter.png")
+	packageIMG=loadImage("package.png")
 }
 
-function setup(){
-    var canvas = createCanvas(1200,400);
-    engine = Engine.create();
-    world = engine.world;
+function setup() {
+	createCanvas(800, 700);
+	rectMode(CENTER);
+	
+
+	packageSprite=createSprite(width/2, 80, 10,10);
+	packageSprite.addImage(packageIMG)
+	packageSprite.scale=0.2
+
+	helicopterSprite=createSprite(width/2, 200, 10,10);
+	helicopterSprite.addImage(helicopterIMG)
+	helicopterSprite.scale=0.6
+
+	groundSprite=createSprite(width/2, height-35, width,10);
+	groundSprite.shapeColor=color(255)
 
 
-    ground = new Ground(600,height,1200,20);
-    platform = new Ground(150, 305, 350, 170);
+	engine = Engine.create();
+	world = engine.world;
 
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
-    pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:3, isStatic:true});
+	World.add(world, packageBody);
+	
+	Matter.Body.setStatic(body, isStatic);
+	packageSprite.x = packageBody.position.x;
+	packageSprite.y = packageBody.position.y;
+	//Create a Ground
+	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
+ 	World.add(world, ground);
 
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
-    pig3 = new Pig(810, 220);
 
-    log3 =  new Log(810,180,300, PI/2);
-
-    box5 = new Box(810,160,70,70);
-    log4 = new Log(760,120,150, PI/7);
-    log5 = new Log(870,120,150, -PI/7);
-
-    bird = new Bird(100,100);
-
+	Engine.run(engine);
+  
 }
 
-function draw(){
-    background(backgroundImg);
-    Engine.update(engine);
-    console.log(box2.body.position.x);
-    console.log(box2.body.position.y);
-    console.log(box2.body.angle);
-    box1.display();
-    box2.display();
-    ground.display();
-    pig1.display();
-    log1.display();
 
-    box3.display();
-    box4.display();
-    pig3.display();
-    log3.display();
-
-    box5.display();
-    log4.display();
-    log5.display();
-
-    bird.display();
-    platform.display();
+function draw() {
+  rectMode(CENTER);
+  background(0);
+  packageSprite.x= packageBody.position.x 
+  packageSprite.y= packageBody.position.y 
+  drawSprites();
+ 
 }
+
+function keyPressed() {
+ if (keyCode === DOWN_ARROW) {
+    // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
+
+    
+  }
+}
+
+
+
